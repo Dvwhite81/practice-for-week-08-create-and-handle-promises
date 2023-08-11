@@ -1,24 +1,41 @@
 function stretch(timeLeft) {
-  // refactor your code from phase 1
-  // Your code here
+  return pause(timeLeft, 1000, 'stretch', 'done stretching');
 }
 
 
 function runOnTreadmill(timeLeft) {
-  // refactor your code from phase 1
-  // Your code here
+  return pause(timeLeft, 500, 'run on treadmill', 'done running on treadmill');
 }
 
 
 function liftWeights(timeLeft) {
-  // refactor your code from phase 1
-  // Your code here
+  return pause(timeLeft, 2000, 'lift weights', 'done lifting weights');
 }
 
 
 function workout(totalTime) {
-  // refactor your code from phase 1
-  // Your code here
+  stretch(totalTime)
+    .then((value) => runOnTreadmill(value))
+    .then((value) => liftWeights(value))
+    .then((value) => console.log(`done working out with ${value / 1000} seconds left`))
+    .catch((reason) => console.error(reason));
+}
+
+// Helper function
+function pause(timeLeft, timeNeeded, exercise, print) {
+  const promise = new Promise((resolve, reject) => {
+    if (timeLeft < timeNeeded) {
+      reject(new Error(`you dont have enough time to ${exercise}`));
+    } else {
+      timeLeft -= timeNeeded;
+      setTimeout(() => resolve(timeLeft), timeNeeded);
+    }
+  });
+
+  return promise.then((value) => {
+    console.log(print);
+    return value;
+  });
 }
 
 /* ============================ TEST YOUR CODE ============================
@@ -46,7 +63,7 @@ Comment in each invocation of your workout function below and run the file
     // Error:  you dont have enough time to lift weights
 
 
-// workout(4000);
+ workout(4000);
   // should print out the following:
   //   done stretching
   //   done running on treadmill

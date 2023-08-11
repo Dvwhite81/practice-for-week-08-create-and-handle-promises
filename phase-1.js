@@ -1,17 +1,29 @@
 function stretch() {
-  // Your code here
+  return pause(1, 'done stretching');
 }
 
 function runOnTreadmill() {
-  // Your code here
+  return pause(0.5, 'done running on treadmill');
 }
 
 function liftWeights() {
-  // Your code here
+  return pause(2, 'done lifting weights');
 }
 
 function workout() {
-  // Your code here
+  stretch()
+    .then(() => runOnTreadmill())
+    .then(() => liftWeights())
+    .then(() => console.log('done working out'));
+}
+
+// Helper function
+function pause(numberOfSeconds, print) {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve(print), numberOfSeconds * 1000);
+  });
+
+  return promise.then(value => console.log(value));
 }
 
 
